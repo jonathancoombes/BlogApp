@@ -1,7 +1,11 @@
+using BlogApp.Data;
+using BlogApp.Data.CategorySection;
+using BlogApp.Data.PostSection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,6 +31,10 @@ namespace BlogApp
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddDbContext<BlogAppDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:BlogAppDbContext"]), ServiceLifetime.Transient);
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IPostService, PostService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,7 +1,97 @@
 ﻿@page "/"
+@using Microsoft.EntityFrameworkCore
+@using BlogApp.Data
+@using BlogApp.Data.CategorySection
+@using BlogApp.Data.PostSection
+@inject BlogAppDbContext context
+@inject ICategoryService categoryService
+@inject IPostService postService
 
-<h1>Hello, world!</h1>
+@if (AllCategories != null && AllCategories.Any())
+{
+    <h2>Get all Categories</h2>
+    <ul>
+        @foreach (var category in AllCategories)
+        {
+            <li>@category.Name</li>
+        }
+    </ul>
+}
+@if (BlazorCategory != null)
+{
+    <h2>Individual Category</h2>
+    <ul>
+        <li>@BlazorCategory.Name</li>
+    </ul>
+}
+@if (AllPosts != null && AllPosts.Any())
+{
+    <h2>Get all Posts</h2>
+    <ul>
+        @foreach (var post in AllPosts)
+        {
+            <li>@post.Title</li>
+        }
+    </ul>
+}
+@if (AllPostsByBlazorCategory != null && AllPostsByBlazorCategory.Any())
+{
+    <h2>Get all Posts for Blazor Category</h2>
+    <ul>
+        @foreach (var post in AllPostsByBlazorCategory)
+        {
+            <li>@post.Title</li>
+        }
+    </ul>
+}
+@if (BlazorIsGreatPost != null)
+{
+    <h2>Individual Post</h2>
+    <ul>
+        <li>@BlazorIsGreatPost.Title</li>
+    </ul>
+}
 
-Welcome to your new app.
+@code  {
+    public virtual IEnumerable<Category> AllCategories { get; set; }
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    public virtual Category BlazorCategory { get; set; }
+
+    public virtual IEnumerable<Post> AllPosts { get; set; }
+
+    public virtual IEnumerable<Post> AllPostsByBlazorCategory { get; set; }
+
+    public virtual Post BlazorIsGreatPost { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        AllCategories = await categoryService.GetAllAsync();
+        BlazorCategory = await categoryService.GetAsync(1);
+        AllPosts = await postService.GetAllAsync();
+        AllPostsByBlazorCategory = await postService.GetAllAsync(1);
+        BlazorIsGreatPost = await postService.GetAsync(1);
+
+        await base.OnInitializedAsync();
+    }
+}
+
+
+
+@*<h1>Hello, world!</h1>
+
+    Welcome to your new app.
+
+    This category is @Category
+
+    @code {
+
+        public virtual string Category { get; set; }
+
+        protected override async Task OnInitializedAsync() {
+
+            Category = (await context.Set<Category>().FirstOrDefaultAsync(x => x.Id == 9)).Name;
+
+            await base.OnInitializedAsync();
+        }
+
+    }*@
