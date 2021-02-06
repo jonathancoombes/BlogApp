@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BlogApp.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -19,7 +20,7 @@ namespace BlogApp.Data.PostSection
 
         public virtual async Task<Post> GetAsync(int id)
         {
-            return await _context.Set<Post>().EnabledPosts().FirstOrDefaultAsync(post => post.Id == id);
+            return await _context.Set<Post>().Include(post => post.PostCategories).ThenInclude(postCategory => postCategory.Category).EnabledPosts().FirstOrDefaultAsync(post => post.Id == id);
         }
 
         public virtual async Task<IEnumerable<Post>> GetAllAsync(int? categoryId = null)

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using BlogApp.Data.PostSection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlogApp.Data.PostSection
+namespace BlogApp.Services
 {
     public partial interface IPostService
     {

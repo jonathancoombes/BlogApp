@@ -1,8 +1,9 @@
-﻿@page "/"
+﻿
 @using Microsoft.EntityFrameworkCore
 @using BlogApp.Data
 @using BlogApp.Data.CategorySection
 @using BlogApp.Data.PostSection
+@using BlogApp.Services 
 @inject BlogAppDbContext context
 @inject ICategoryService categoryService
 @inject IPostService postService

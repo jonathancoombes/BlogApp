@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BlogApp.Data;
+using BlogApp.Data.CategorySection;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlogApp.Data.CategorySection
+namespace BlogApp.Services
 {
     public partial class CategoryService : ICategoryService
     {

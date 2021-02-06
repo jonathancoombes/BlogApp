@@ -1,0 +1,56 @@
+﻿@using BlogApp.Services
+@using BlogApp.Data.CategorySection
+@using BlogApp.Data.PostSection
+
+@inject ICategoryService categoryService
+@inject IPostService postService
+
+@page "/"
+@page "/category/{id:int}"
+
+
+
+@if (Category != null) {
+<h3>Category.Name</h3>
+}
+
+@if (Posts != null) {
+
+    foreach (var post in Posts) { 
+    
+     <div>
+         <h3>@post.Title</h3>
+         <p>@post.Published?.ToString("dddd d MMMM yyyy")</p>
+         <p>@post.Content</p>
+     </div>
+        
+    }
+
+}
+
+
+@code {
+    [Parameter]
+    public virtual int? Id { get; set; }
+
+    public virtual Category Category { get; set; }
+
+    public IEnumerable<Post> Posts { get; set; }
+
+    //Async method which runs upon app initialised
+
+    protected override async Task OnInitializedAsync() {
+
+        if (Id.HasValue) {
+
+            Category = await categoryService.GetAsync(Id.Value);
+
+        }
+
+        Posts = await postService.GetAllAsync(Id);
+
+        await base.OnInitializedAsync();
+    }
+
+
+}
