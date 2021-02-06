@@ -9,23 +9,27 @@
 @page "/category/{id:int}"
 
 
-
 @if (Category != null) {
 <h3>Category.Name</h3>
 }
 
 @if (Posts != null) {
 
-    foreach (var post in Posts) { 
-    
+    foreach (var post in Posts)
+    {
      <div>
-         <h3>@post.Title</h3>
+         <h3><a href="/post/@post.Id">@post.Title</a></h3>
          <p>@post.Published?.ToString("dddd d MMMM yyyy")</p>
-         <p>@post.Content</p>
+         <p>@if (post.Content.Length >= 99)
+         {
+             @post.Content.Substring(0, 100)
+         }
+         else
+         {
+             @post.Content
+         };</p>
      </div><br />
-        
     }
-
 }
 
 
@@ -51,6 +55,5 @@
 
         await base.OnParametersSetAsync();
     }
-
 
 }
