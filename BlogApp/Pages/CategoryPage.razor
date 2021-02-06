@@ -22,7 +22,7 @@
          <h3>@post.Title</h3>
          <p>@post.Published?.ToString("dddd d MMMM yyyy")</p>
          <p>@post.Content</p>
-     </div>
+     </div><br />
         
     }
 
@@ -39,7 +39,7 @@
 
     //Async method which runs upon app initialised
 
-    protected override async Task OnInitializedAsync() {
+    protected override async Task OnParametersSetAsync() {
 
         if (Id.HasValue) {
 
@@ -49,7 +49,7 @@
 
         Posts = await postService.GetAllAsync(Id);
 
-        await base.OnInitializedAsync();
+        await base.OnParametersSetAsync();
     }
 
 
